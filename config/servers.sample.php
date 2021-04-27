@@ -10,11 +10,11 @@ $host= 'btpd';
 
 return [
     'production' => [
-        '5' => [['host' => $host, 'port' => 36000]],
-        '60' => [['host' => $host, 'port' => 36001]],
-        '420' => [['host' => $host, 'port' => 36004]],
-        '3600' => [['host' => $host, 'port' => 36002]],
-        '86400' => [['host' => $host, 'port' => 36003]],
+        '5' => [['host' => $host, 'port' => 37000]],
+        '60' => [['host' => $host, 'port' => 37001]],
+        '420' => [['host' => $host, 'port' => 37004]],
+        '3600' => [['host' => $host, 'port' => 37002]],
+        '86400' => [['host' => $host, 'port' => 37003]],
     ],
 ];
 
