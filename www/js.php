@@ -9,8 +9,12 @@ $params = json_decode($_REQUEST['params'], 1);
 $cluster = $_REQUEST['cluster'];
 $scale = $_REQUEST['scale'];
 
+
+$pp = json_decode($params,1);
+$pp['params']['scale'] = $scale;
+
 $btp = JsonRpc_BtpService::createByCluster($cluster, $scale);
-$data = json_encode($btp->request($method, $params));
+$data = json_encode($btp->request($method, json_encode($pp)));
 
 //ob_start("ob_gzhandler");
 //ini_set('zlib.output_compression',true);
