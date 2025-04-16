@@ -37,8 +37,6 @@
 					<li class="reset-list"><a href="#" class="js-reset-list"><i class="icon-fire"></i></a></li>
 					<li data-type="service" class="js-mainmenu"><a href="#service/">Сервисы</a></li>
 					<li data-type="script" class="js-mainmenu"><a href="#script/">Скрипты</a></li>
-					<li data-type="dashboard" class="js-mainmenu"><a href="#dashboard/">Дашборды</a></li>
-					<li class="js-mainmenu"><a href="http://tv.stat1.lan/?noslide">Мониторинг</a></li>
 					<li class="mid-err empty"><a href="#" class="js-errors"><i class="icon-warning-sign"></i>Ошибки <b>0</b></a></li>
 					<li class="fl-r"><a href="#" class="js-reload"><i class="icon-repeat"></i></a></li>
 					<li class="fl-r js-selector dropdown" data-type="HostGroup">

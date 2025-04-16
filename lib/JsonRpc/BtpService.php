@@ -179,4 +179,17 @@ class JsonRpc_BtpService
     public function del($name) {
         $this->call('del', ['name' => $name]);
     }
+
+    public function delete( array $names){
+        foreach ($this->connects as $conn){
+            $json = [
+                "jsonrpc"=>"2.0",
+                "method"=>"del",
+                "id" => $conn->newId(),
+                "params" => ['names' => $names],
+            ];
+            $conn->sync($json);
+        }
+
+    }
 }

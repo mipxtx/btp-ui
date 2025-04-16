@@ -54,8 +54,15 @@ class JsonRpc_Connection
     }
 
     protected function send($data) {
-        if (!fwrite($this->socket, json_encode($data) . "\r\n")) {
+        global $debug;
+
+        $bytes = json_encode($data) . "\r\n";
+
+        if (!fwrite($this->socket, $bytes)) {
             $this->throwEx('fwrite failed');
+        }
+        if($debug) {
+            echo ">> " . $bytes;
         }
     }
 
@@ -85,6 +92,10 @@ class JsonRpc_Connection
         return $this;
     }
 
+    public function newId(){
+        return $this->id++;
+    }
+
     /**
      * @param $method
      * @param $params
@@ -99,6 +110,11 @@ class JsonRpc_Connection
         return $F;
     }
 
+    public function sync (array $data){
+        $this->connect()->send($data);
+        return $this->connect()->recv();
+    }
+
     protected function throwEx($data) {
         @fclose($this->socket);
         $this->socket = null;
@@ -109,26 +125,37 @@ class JsonRpc_Connection
         $this->onNotify = $callback;
     }
 
+    protected function recv(){
+        global $debug;
+        $data = fgets($this->socket);
+        if (!$data) {
+            $this->throwEx('no data recieved');
+        }
+        //echo $data."\n";
+
+        /**
+         * Из за того что из сервера BTP шла всякая бяка в виде символов x01, все падало...
+         */
+        $data = utf8_encode($data);
+        if($debug) {
+            echo "<< " . $data;
+        }
+        $data = json_decode(
+            $data, //      self::cleanJsonString($data),
+            true
+        );
+        return $data;
+    }
+
     public function process($force = false) {
+
         if ($this->connect()->failed) {
             return array();
         }
         $result = array();
         while ($force || count($this->onRecv) > 0) {
-            $data = fgets($this->socket);
-            if (!$data) {
-                $this->throwEx('no data recieved');
-            }
-            //echo $data."\n";
 
-            /**
-             * Из за того что из сервера BTP шла всякая бяка в виде символов x01, все падало...
-             */
-            $data = utf8_encode($data);
-            $data = json_decode(
-                $data, //      self::cleanJsonString($data),
-                true
-            );
+            $data = $this->recv();
 
             if (isset($data['error'])) {
                 $this->throwEx($data['error']);
