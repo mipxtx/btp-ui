@@ -136,7 +136,7 @@ class JsonRpc_Connection
         /**
          * Из за того что из сервера BTP шла всякая бяка в виде символов x01, все падало...
          */
-        $data = utf8_encode($data);
+//        $data = utf8_encode($data);
         if($debug) {
             echo "<< " . $data;
         }
